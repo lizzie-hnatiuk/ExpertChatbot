@@ -14,7 +14,7 @@ The chatbot will be ‘intelligent’ in the sense that it will be able to recog
 [Generalized 'Expert' Chatbot](https://wiki.ubc.ca/Generalized_%27Expert%27_Chatbot_CPSC312)
 
 ### Notes
-1 ~ *ontology*:  a representation, formal naming, and definition of the categories, properties, and relations between the concepts, data, and entities that substantiate one, many, or all domains.
+1 ~ *ontology*:  a representation, formal naming, and definition of the categories, properties, and relations between the concepts, data,      and entities that substantiate one, many, or all domains.
 
 ###### Authors
 Elizabeth Hnatiuk & Fengyi Bian
@@ -26,4 +26,4 @@ CPSC 312 101
 November 2018
 
 ### References
-2 ~ Merritt, D. (2003) AI - The art and science of making computers do interesting things that are not in their nature. *Dr. Dobb's AI Expert Newsletter (11)*. Retrieved from: [https://trilug.org/pipermail/dev/2003-September/000368.html](https://trilug.org/pipermail/dev/2003-September/000368.html).
+2 ~ Merritt, D. (2003) AI - The art and science of making computers do interesting things that are not in their nature. *Dr. Dobb's AI                     Expert Newsletter (11)*. Retrieved from: [https://trilug.org/pipermail/dev/2003-September/000368.html](https://trilug.org/pipermail/dev/2003-September/000368.html).
