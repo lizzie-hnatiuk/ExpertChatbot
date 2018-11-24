@@ -89,7 +89,7 @@ swap_word(W,W).
 form_response(In, Out) :-
   response(InputPattern, ResponsePatterns),
   match(InputPattern, In),
-  %random_elem(ResponsePatterns, ResponsePattern),
+   %random_elem(ResponsePatterns, ResponsePattern),
   flatten(ResponsePatterns, Out).
 
 
