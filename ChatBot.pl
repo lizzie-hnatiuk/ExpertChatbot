@@ -1,12 +1,13 @@
 % Pronoun Reversal
 % knowledge base portion of program
 % changes grammatical person of sentance (for response creation)
-me_you(me, you).
-me_you(i, you).
-me_you(my, your).
-me_you(mine, yours).
-me_you(am, are).
-me_you(im, youre).
+me_you("me", "you").
+me_you("i", "you").
+me_you("my", "your").
+me_you("mine", "yours").
+me_you("am", "are").
+me_you("im", "you're").
+me_you("im", "you're").
 
 % Input/Output
 % takes an input string of user text
