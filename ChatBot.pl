@@ -6,6 +6,7 @@ me_you(i, you).
 me_you(my, your).
 me_you(mine, yours).
 me_you(am, are).
+me_you(im, youre).
 
 % Input/Output
 % takes an input string of user text
@@ -16,11 +17,13 @@ main :-
   write("Ask me anything!"), nl,
   repeat,
   write("➟ "), nl,
-  read(InputString),
+  read_line_to_codes(user_input, CharCodeList),
+  atom_codes(InputAtom, CharCodeList),
+  atom_string(InputAtom, InputString),
   respond(InputString, ResponseString), nl,
   write(ResponseString), nl,
   % forces backtracking until user inputs 'quit'
-  InputString == 'quit'.
+  InputString == "quit".
 
 %Core Pattern Matcher - Respond function
 respond(InputString, ResponseString) :-
