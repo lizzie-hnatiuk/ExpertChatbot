@@ -1,34 +1,7 @@
-% Knowledge Base portion of program -----------------------------------------------
+% *************** ChatBot.pl contains the Relations for the ChatBot ***************
+% ************  pertaining to input deconstruction & output formation ************
 
-% Pronoun Reversal
-% changes grammatical person of sentance (for response creation)
-me_you("me", "you").
-me_you("i", "you").
-me_you("my", "your").
-me_you("mine", "yours").
-me_you("am", "are").
-me_you("im", "you're").
-me_you("im", "you're").
-
-%general response rules for converation flow
-response( ["yes",_],
-    [ ["why",?] ]).
-response( ["no",_],
-    [ ["why","not",?] ]).
-response( [_, "your", "name", "is", X],
-      [ ["nice","to", "meet", "you", X, "!"] ]).
-response( [_,"you","like",X],
-    [ ["how","can","you","like",X,?],
-      ["is","it","strange","to","like",X,?] ]).
-response( [_,"want","to",X],
-          [ ["why","would","you","want","to",X,?],
-            ["you","can","not",X,'.'],
-            ["is","it","dangerous","to",X,?] ]).
-response( [X],
-          [ [X,?] ]).
-
-
-%Rule portion of program ----------------------------------------------------------
+:- consult('GeneralResponsePatterns.pl').
 
 % Input/Output
 % takes an input string of user text
@@ -148,43 +121,3 @@ fill_var([], W, [W|IWs], [W|IWs]) :-
     !.
 fill_var([X|Xs], W, [X|IWs], IWsLeft) :-
     fill_var(Xs, W, IWs, IWsLeft).
-
-%NOTE: at this point in program, all portions of P2 Notes
-%       before Onlology section have been completed
-
-%BUG LIST:
-%    - cannot select random response from list of possible responses
-%         - prints out all possible responses at once
-%         - (random_elem commented out bcs it throws errors for inputs with only one response)
-%    - response patterns only work for a single word in front of key word
-%         - probably an issue with match/2 or fill_var/4 (or how they interact with each other)
-
-% Trace of current functionality
-
-% Expert ChatBot Sample - type something ->
-
-% |: hi my name is lizzie
-
-% （っ＾▿＾） nice to meet you lizzie !
-
-% |: yes it is nice to meet you too
-
-% （っ＾▿＾） why ?
-
-% |: because i like you
-
-% （っ＾▿＾） how can you like me ? is it strange to like me ?
-
-% |: no
-
-% （っ＾▿＾） why not ?
-
-% |: because i want to be a nice person
-
-% （っ＾▿＾） why would you want to be a nice person ? you can not be a nice person . is it dangerous to be a nice person ?
-
-% |: quit
-
-% （っ＾▿＾） quit ?
-
-% true .
