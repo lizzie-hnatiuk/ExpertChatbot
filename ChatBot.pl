@@ -15,6 +15,8 @@ response( ["yes",_],
     [ ["why",?] ]).
 response( ["no",_],
     [ ["why","not",?] ]).
+response( [_, "your", "name", "is", X],
+      [ ["nice","to", "meet", "you", X, "!"] ]).
 response( [_,"you","like",X],
     [ ["how","can","you","like",X,?],
       ["is","it","strange","to","like",X,?] ]).
@@ -24,22 +26,23 @@ response( [_,"want","to",X],
             ["is","it","dangerous","to",X,?] ]).
 response( [X],
           [ [X,?] ]).
+
+
 %Rule portion of program ----------------------------------------------------------
 
 % Input/Output
 % takes an input string of user text
 % returns a response string
 main :-
-  write("Expert ChatBot Sample"), nl,
+  write("Expert ChatBot Sample - type something -> "), nl, nl,
   % repeat forces code to endlessly repreat (until something termiates backtracking)
-  write("Ask me anything!"), nl,
   repeat,
-  write("➟ "), nl,
   read_line_to_codes(user_input, CharCodeList),
   atom_codes(InputAtom, CharCodeList),
   atom_string(InputAtom, InputString),
   respond(InputString, ResponseString), nl,
-  write(ResponseString), nl,
+  write("（っ＾▿＾） "),
+  write(ResponseString), nl, nl,
   % forces backtracking until user inputs 'quit'
   InputString == "quit".
 
@@ -145,3 +148,43 @@ fill_var([], W, [W|IWs], [W|IWs]) :-
     !.
 fill_var([X|Xs], W, [X|IWs], IWsLeft) :-
     fill_var(Xs, W, IWs, IWsLeft).
+
+%NOTE: at this point in program, all portions of P2 Notes
+%       before Onlology section have been completed
+
+%BUG LIST:
+%    - cannot select random response from list of possible responses
+%         - prints out all possible responses at once
+%         - (random_elem commented out bcs it throws errors for inputs with only one response)
+%    - response patterns only work for a single word in front of key word
+%         - probably an issue with match/2 or fill_var/4 (or how they interact with each other)
+
+% Trace of current functionality
+
+% Expert ChatBot Sample - type something ->
+
+% |: hi my name is lizzie
+
+% （っ＾▿＾） nice to meet you lizzie !
+
+% |: yes it is nice to meet you too
+
+% （っ＾▿＾） why ?
+
+% |: because i like you
+
+% （っ＾▿＾） how can you like me ? is it strange to like me ?
+
+% |: no
+
+% （っ＾▿＾） why not ?
+
+% |: because i want to be a nice person
+
+% （っ＾▿＾） why would you want to be a nice person ? you can not be a nice person . is it dangerous to be a nice person ?
+
+% |: quit
+
+% （っ＾▿＾） quit ?
+
+% true .
