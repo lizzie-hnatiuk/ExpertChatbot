@@ -1,18 +1,19 @@
 % *************** Notes&Bugs.txt contains notes for the ChatBot ***************
 % *******  pertaining bugs and where we are at in the google doc notes *******
 
-NOTE: at this point in program, all portions of P2 Notes
-      before Onlology section have been completed
+% *NOTE* at this point in program, all portions of P2 Notes
+      up to the "Applications of the Onlology" section have been completed
 
-BUG LIST:
-   - cannot select random response from list of possible responses
-        - prints out all possible responses at once
-        - (random_elem commented out bcs it throws errors for inputs with only one response)
-   - response patterns only work for a single word in front of key word
+% *BUG LIST*
+   * cannot select random response from list of possible responses
+        * prints out all possible responses at once
+        * (random_elem commented out bcs it throws errors for inputs with only one response)
+   * response patterns only work for a single word in front of key word
         - probably an issue with match/2 or fill_var/4 (or how they interact with each other)
-   - problems wiht when to use "i" vs "me" in responses
+   * problems wiht when to use "i" vs "me" in responses
+   * need to figure out how to use Grammar rules in ChatBot
 
-TRACE of current functionality
+% *TRACE of ChatBot Functionality*
 Expert ChatBot Sample - type something ->
 |: hi my name is lizzie
 （っ＾▿＾） nice to meet you lizzie !
@@ -27,3 +28,34 @@ Expert ChatBot Sample - type something ->
 |: quit
 （っ＾▿＾） quit ?
 true .
+
+% *GRAMMAR EXAMPLE*
+"the old man has a small business" is a sentance
+      * "the old man" is a noun phrase
+           * "the" is a determiner
+           * "old" is an adjective
+           * "man" is a noun
+      * "has a small business" is a verb phrase
+           * "has" is a verb
+           * "a small business" is a noun phrase
+                * "a" is a determiner
+                * "small" is an adjective
+                * "business" is a noun
+
+% *TRACE of GRAMMAR EXAMPLE using Grammar.pl*
+?- sentence(["the","old","man","has","a","small","business"], X).
+X = [] ;
+X = ["a", "small", "business"] ;
+false.
+
+?- noun_phrase(["the","old","man"], X).
+X = [] ;
+false.
+
+?- verb_phrase(["has","a","small","business"], X).
+X = [] ;
+X = ["a", "small", "business"].
+
+?- noun_phrase(["a","small","business"], X).
+X = [] ;
+false.
