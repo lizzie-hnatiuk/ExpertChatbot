@@ -34,7 +34,7 @@ respond(InputString, ResponseString) :-
 % *String/List conversion*
 %Split string into list of words sepearated by " "
 string_to_list(String, WordList) :-
-  split_string(String, " ", "", WordList).
+  split_string(String, " ", "?", WordList).
 %Condense list of words into single String in same order
 list_to_string([], "").
 list_to_string([Word], String) :-
