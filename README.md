@@ -7,6 +7,9 @@ The problem at hand is to examine the benefits and drawbacks of using logic prog
 ### What is the Something Extra?
 The chatbot will be ‘intelligent’ in the sense that it will be able to recognize abstract patterns and respond appropriately within multiple different domains. The chatbot will use function symbols to abstract linguistic patterns and construct linguistic individuals, and will use separate databases for specific ontologies<sup>[1](#Notes)</sup>. The ontologies will be usable by the function symbols to support specific applications for the chatbot. For example, an ontology could be created to represent an expert system that warns people about what foods they can and cannot eat based on allergies<sup>[2](#References)</sup>.  Without the ontology, the knowledge would all be stored in the linguistic rules specified by function symbols. With the ontology, the rules become simple general purpose rules and the knowledge is stored in the ontology.
 
+### Interesting Functionality
+ - The Chatbot is able to understand conversations in any language through simply changing the language of the words in the response pattern and grammar files (GeneralResponsePatterns.pl & Grammar.pl). 
+
 ### What Did We Learn From Doing This?
 -
 
