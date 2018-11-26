@@ -1,6 +1,7 @@
 % *************** Grammar.pl contains the Relations for the ChatBot ***************
 % *********************  pertaining to general grammar rules *********************
 
+%:- use_module(library(lists)).
 :- consult('ConversationOntology.pl').
 
 % ************************** Genrative Rules for Syntax **************************
@@ -15,6 +16,11 @@
 sentence(L0,L2) :-
   noun_phrase(L0,L1),
   verb_phrase(L1,L2).
+
+% vp_np(L0,L2,VP,NP) :-
+%   noun_phrase(L0,VP),
+%   verb_phrase(VP,L2),
+%   append(NP,VP,L0).
 
 % topicalization: optional movement NP after verb in VP to front of sentance
 % sentance(L0,L4) :-

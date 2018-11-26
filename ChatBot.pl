@@ -2,8 +2,9 @@
 % ************  pertaining to input deconstruction & output formation ************
 
 :- consult('GeneralResponsePatterns.pl').
+:- consult('Grammar.pl').
 
-% Input/Output
+% *Input/Output*
 % takes an input string of user text
 % returns a response string
 main :-
@@ -19,7 +20,8 @@ main :-
   % forces backtracking until user inputs 'quit'
   InputString == "quit".
 
-%Core Pattern Matcher - Respond function
+
+% *Core Pattern Matcher - Respond function*
 respond(InputString, ResponseString) :-
   string_to_list(InputString, InputWordList),
   swap_person(InputWordList, SwappedWordList),
@@ -29,7 +31,7 @@ respond(InputString, ResponseString) :-
   %- so we have one response per user input
   !.
 
-%String/List conversion
+% *String/List conversion*
 %Split string into list of words sepearated by " "
 string_to_list(String, WordList) :-
   split_string(String, " ", "", WordList).
@@ -42,24 +44,49 @@ list_to_string([Word|T], String) :-
   list_to_string(T, TailString),
   string_concat(WordWithSpace, TailString, String).
 
-%Using Pronoun Reversal to Create Response
+% *Using Pronoun Reversal to Create Response*
 %boundary condition: if list is empty, were done.
 swap_person([], []).
 %recursive condition:
-%    - take first ward in list and call swap_word/2
+%    - take first word in list and call swap_word/2
 %    - put replacement word in output list
 %    - recursively call rest of input list
 swap_person([X|Xs], [Y|Ys]) :-
-  swap_word(X, Y),
-  !, swap_person(Xs, Ys).
+  tail(Xs, Xts)
+  -> (
+      verb(Xs, Xts)              %then:     % if head of Xs is verb
+      -> sw_np([X|Xs], [Y|Ys])              % then try swap_np {"you" <-> "I"}
+      ;  sw_vp([X|Xs], [Y|Ys])              % else try swap_vp {"you" <-> "me"}
+      )
+  ;   sw_vp([X|Xs], [Y|Ys]).                % else try swap_vp {"you" <-> "me"}
+
+tail([_|X], X).
+
+sw_np([X|Xs], [Y|Ys]) :-
+  (swap_word_np(X, Y), not(X==Y))                 % if swap_np is successful {"you" <-> "I"}
+  -> (!, swap_person(Xs, Ys))                     % then cut and recurse over rest of input
+  ; (swap_word(X, Y), !, swap_person(Xs, Ys)).    % else regular pronoun swap, cut, recurse
+
+sw_vp([X|Xs], [Y|Ys]) :-
+  (swap_word_vp(X, Y), not(X==Y))                 % if swap_vp is successful{"you" <-> "me"}
+  -> (!, swap_person(Xs, Ys))                     % then cut and recurse over rest of input
+  ; (swap_word(X, Y), !, swap_person(Xs, Ys)).     % else regular pronoun swap, cut, recurse
 
 %looks at K.B. to see if word is mentioned in pronoun reversals
 swap_word(X, Y) :- me_you(X, Y).
 swap_word(X, Y) :- me_you(Y, X).
 %if not in K.B., word is replaced with itself
 swap_word(W,W).
+% specialized pronoun swapping for object & subject pronouns
+%    - (when to use "me" vs "I")
+swap_word_vp(X, Y) :- me_you_vp(X, Y).
+swap_word_vp(X, Y) :- me_you_vp(Y, X).
+swap_word_vp(W,W).
+swap_word_np(X, Y) :- me_you_np(X, Y).
+swap_word_np(X, Y) :- me_you_np(Y, X).
+swap_word_np(W,W).
 
-%Forming the Response
+% *Forming the Response*
 % for now, simply add question mark to end
 % remember input list has swapped pronouns!!!
 form_response(In, Out) :-
@@ -69,20 +96,20 @@ form_response(In, Out) :-
   flatten(ResponsePatterns, Out).
 
 
-%returns random answer from list of possible answers
-random_elem(List, Elem) :-
-  count(List, N),
-  !,
-  random(1, N, I),
-  nth1(I, List, Elem).
+% %returns random answer from list of possible answers
+% random_elem(List, Elem) :-
+%   count(List, N),
+%   !,
+%   random(1, N, I),
+%   nth1(I, List, Elem).
+%
+% %counts number of elements in a list
+% %count([], 0).
+% count([_|Tail], N) :-
+%   count(Tail, N1),
+%   N is N1 + 1.
 
-%counts number of elements in a list
-%count([], 0).
-count([_|Tail], N) :-
-  count(Tail, N1),
-  N is N1 + 1.
-
-%Matching Input with Response Rules
+% *Matching Input with Response Rules*
 % boundary condtions:
 %   - when input list is empty
 match([], []).
@@ -107,7 +134,8 @@ match([W|PWs], [W|IWs]) :-
     !,
     match(PWs, IWs).
 
-%Walking Input List to Find Words
+% *Walking Input List to Find Key Words*
+% key words = those specified in response functions in GeneralResponsePatterns.pl
 % 4 arguments:
 %    - the output list of words
 %         - returned to caller

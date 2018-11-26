@@ -4,22 +4,23 @@
 % ********************************Pronoun Reversal ********************************
 % changes grammatical person of sentance (for response creation)
 
-% Possessive Adjectives
-% noun determiners : my his her its your our their ...
-me_you("my", "your").
+% Object Pronouns
+% object: the NP sister to V, daughter of VP
+me_you_vp("me", "you").
+
+% Subject Pronouns
+% subject: the NP sister to VP, daughter of S
+me_you_np("I", "you").
+me_you_np("i", "you").
 
 % Possessive Pronouns
 % refer to  N or NP, can replace N or NP, shows possession
 % eg: mine yours his hers its ours yours theirs...
 me_you("mine", "yours").
 
-% Subject Pronouns
-% subject: the NP sister to VP, daughter of S
-me_you("i", "you").
-
-% Object Pronouns
-% object: the NP sister to V, daughter of VP
-me_you("me", "you").
+% Possessive Adjectives
+% noun determiners : my his her its your our their ...
+me_you("my", "your").
 
 % Pronoun Verbs
 me_you("am", "are").

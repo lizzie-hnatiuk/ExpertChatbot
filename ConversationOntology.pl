@@ -3,6 +3,8 @@
 % ************ of commonly used English words and their grammatical types ************
 
 word(is, [ type = verb ]).
+word(like, [ type = verb ]).
+word(think, [ type = verb ]).
 word(are, [ type = verb ]).
 word(has, [ type = verb ]).
 word(have, [ type = verb ]).
