@@ -43,6 +43,12 @@ response( [_,"you","like",X],
     [ ["how","can","you","like",X,?],
       ["is","it","strange","to","like",X,?] ]).
 
+response( ["how","am","me",_],
+    [ ["good,","thank","you","for","asking",":)"] ]).
+    
+response( [_,"how","am","me",_],
+    [ ["good,","thank","you","for","asking",":)"] ]).
+
 response( [_,"want","to",X],
           [ ["why","would","you","want","to",X,?],
             ["you","can","not",X,'.'],
