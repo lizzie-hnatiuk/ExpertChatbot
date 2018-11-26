@@ -2,7 +2,7 @@
 Project 2 
 
 ### What is the Problem?
-The problem at hand is to examine the benefits and drawbacks of using logic programing (specifically, SWI Prolog) in creating a chatbot (namely, a program to which a user may make statements using natural language, and receive a response in natural language). Specifically,  we will be assessing the characteristics of prolog optimized for search, flexible pattern batching, databases, parsing, first order logic, and controlled natural language.
+The problem at hand is to examine the benefits and drawbacks of using logic programing (specifically, SWI Prolog) in creating a chatbot (namely, a program to which a user may make statements using natural language, and receive a response in natural language). Specifically,  we will be assessing the characteristics of prolog optimized for search, flexible pattern matching, databases, parsing, first order logic, and controlled natural language.
 
 ### What is the Something Extra?
 The chatbot will be ‘intelligent’ in the sense that it will be able to recognize abstract patterns and respond appropriately within multiple different domains. The chatbot will use function symbols to abstract linguistic patterns and construct linguistic individuals, and will use separate databases for specific ontologies<sup>[1](#Notes)</sup>. The ontologies will be usable by the function symbols to support specific applications for the chatbot. For example, an ontology could be created to represent an expert system that warns people about what foods they can and cannot eat based on allergies<sup>[2](#References)</sup>.  Without the ontology, the knowledge would all be stored in the linguistic rules specified by function symbols. With the ontology, the rules become simple general purpose rules and the knowledge is stored in the ontology.
@@ -11,8 +11,11 @@ The chatbot will be ‘intelligent’ in the sense that it will be able to recog
  - The Chatbot is able to understand conversations in any language through simply changing the language of the words in the response pattern knowledge base and the grammar ontology (GeneralResponsePatterns.pl & ConversationOntology.pl). 
 
 ### What Did We Learn From Doing This?
--
-
+ -  Benefits of using logic programming for this task:
+    - 
+ -  Drawbacks of using logic programming for this task:
+    - 
+ - 
 ### Link to UBC Wiki
 [Generalized 'Expert' Chatbot](https://wiki.ubc.ca/Generalized_%27Expert%27_Chatbot_CPSC312)
 
