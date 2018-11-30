@@ -25,3 +25,8 @@ define(String, Definition) :-
   s(ID, _, Word,_,_,_),
   g(ID, Def),
   atom_string(Def, Definition).
+
+alldefs(String, DefList) :-
+  findall(Def, define(String, Def), DefList).
+
+  %DefList = ["(def1)", "(def2)", "(def3)", ...]

@@ -63,4 +63,4 @@ response( [_,"do","me","want","to",X],
 response( [X], [ [X,?] ]).
 
 special_response( ["what","does",X,"mean"],
-          [ [Definition] ]) :-  define(X, Definition).
+                  Definitions ) :-  alldefs(X, Definitions).

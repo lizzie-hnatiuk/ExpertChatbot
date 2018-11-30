@@ -17,10 +17,13 @@ main :-
   atom_string(InputAtom, InputString),
   respond(InputString, ResponseString), nl,
   write("（っ＾▿＾） "),
-  write(ResponseString), nl, nl,
+  split_string(ResponseString, "~", "", StringList),
+  writeall(StringList), nl, nl,
   % forces backtracking until user inputs 'quit'
   InputString == "quit".
 
+writeall([]).
+writeall([H|T]) :- writeln(H), writeall(T).
 
 % % *Core Pattern Matcher - Respond function*
 % respond(InputString, ResponseString) :-
@@ -122,11 +125,12 @@ swap_word_s(W,W).
 %       ;  (default_response(InputPattern, ResponsePatterns),
 %            flatten(ResponsePatterns, Out))).
   %random_elem(ResponsePatterns, ResponsePattern),
-
+%["(def1)", "(def2)", "(def3)", ...]
 form_response(In, Out) :-
   special_response(In, ResponsePatterns)
   -> (
-     flatten(ResponsePatterns, Out)
+     add_nums(ResponsePatterns, 1, NumPatterns),
+     flatten(NumPatterns, Out)
      )
   ;  (
      response(InputPattern, ResponsePatterns),
@@ -135,6 +139,17 @@ form_response(In, Out) :-
      ).
 
     %random_elem(ResponsePatterns, ResponsePattern),
+add_nums([], _, []).
+add_nums([S|Ss], N, [Numbered|UnNumbered]) :-
+  atom_number(AN, N),
+  atom_string(AS, S),
+  atom_concat('~', AN, Splitter),
+  atom_concat(Splitter, ' . ', Num),
+  atom_concat(Num, AS, NumS),
+  %atom_concat(NumS, '\nl', NumLn),
+  atom_string(NumS, Numbered),
+  N1 is N+1,
+  add_nums(Ss, N1, UnNumbered).
 
 % %returns random answer from list of possible answers
 % random_elem(List, Elem) :-
