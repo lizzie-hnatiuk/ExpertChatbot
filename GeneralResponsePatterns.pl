@@ -43,7 +43,8 @@ response( [_, "your", "name", "is", X],
 
 response( [_,"you","like",X],
     [ ["how","can","you","like",X,?],
-      ["is","it","strange","to","like",X,?] ]).
+      ["is","it","strange","to","like",X,?],
+      ["XXXX"] ]).
 
 response( ["how","am","me",_],
     [ ["good,","thank","you","for","asking",":)"] ]).
@@ -54,11 +55,13 @@ response( [_,"how","am","me",_],
 response( [_,"you","want","to",X],
           [ ["why","would","you","want","to",X,?],
             ["you","can","not",X,'.'],
-            ["is","it","dangerous","to",X,?] ]).
+            ["is","it","dangerous","to",X,?],
+            ["XXXX"]]).
 
 response( [_,"do","me","want","to",X],
           [ ["I", "would", "love","to",X,'!'],
-            ["No,","thank","you",'.'] ]).
+            ["No,","thank","you",'.'],
+            ["XXXX"] ]).
 
 response( [X], [ [X,?] ]).
 

@@ -7,7 +7,7 @@
 
 % *Input/Output*
 % takes an input string of user text
-% returns a response string
+% writes the response string
 main :-
   write("Expert ChatBot Sample - type something -> "), nl, nl,
   % repeat forces code to endlessly repreat (until something termiates backtracking)
@@ -25,19 +25,7 @@ main :-
 writeall([]).
 writeall([H|T]) :- writeln(H), writeall(T).
 
-% % *Core Pattern Matcher - Respond function*
-% respond(InputString, ResponseString) :-
-%   string_to_list(InputString, InputWordList),
-%   analyze_syntax(InputWordList, Subject, Predicate),
-%   swap_subject(Subject, SwappedSubject),
-%   swap_predicate(Predicate, SwappedPredicate),
-%   append(SwappedSubject, SwappedPredicate, SwappedWordList),
-%   form_response(SwappedWordList, ResponseWordList),
-%   list_to_string(ResponseWordList, ResponseString),
-%     % ! turns off auto backtracking
-%     %- so we have one response per user input
-%   !.
-
+% *Core Pattern Matcher - Respond function*
 respond(InputString, ResponseString) :-
   string_to_list(InputString, InputWordList),
   analyze_syntax(InputWordList, Subject, Predicate)
@@ -55,13 +43,9 @@ respond(InputString, ResponseString) :-
     list_to_string(ResponseWordList, ResponseString),
     !
     ).
-    % ! turns off auto backtracking
-    %- so we have one response per user input
-
-
 
 % *String/List conversion*
-%Split string into list of words sepearated by " "
+%Split string into list of words sepearated by " ", remove ?s
 string_to_list(String, WordList) :-
   split_string(String, " ", "?", WordList).
 %Condense list of words into single String in same order
@@ -74,27 +58,20 @@ list_to_string([Word|T], String) :-
   string_concat(WordWithSpace, TailString, String).
 
 % *Using Pronoun Reversal to Create Response*
-%boundary condition: if list is empty, were done.
+%swaps subject pronouns and other pronouns
 swap_subject([], []).
-%recursive condition:
-%    - take first word in list and call swap_word/2
-%    - put replacement word in output list
-%    - recursively call rest of input list
-
 swap_subject([S|Ss], [SS|SSs]) :-
   swap_word(S, SS), not(S==SS),
   !, swap_subject(Ss,SSs).
-
 swap_subject([S|Ss], [SS|SSs]) :-
   swap_word_s(S, SS),
   !, swap_subject(Ss,SSs).
 
+%swaps object pronouns and other pronouns
 swap_predicate([], []).
-
 swap_predicate([P|Ps], [SP|SPs]) :-
   swap_word(P, SP), not(P==SP),
   !, swap_predicate(Ps,SPs).
-
 swap_predicate([P|Ps], [SP|SPs]) :-
   swap_word_p(P, SP),
   !, swap_predicate(Ps,SPs).
@@ -104,8 +81,7 @@ swap_word(X, Y) :- me_you(X, Y).
 swap_word(X, Y) :- me_you(Y, X).
 %if not in K.B., word is replaced with itself
 swap_word(W,W).
-% specialized pronoun swapping for object & subject pronouns
-%    - (when to use "me" vs "I")
+% specialized pronoun swapping for object & subject pronouns (when to use "me" vs "I")
 swap_word_p(X, Y) :- me_you_p(X, Y).
 swap_word_p(X, Y) :- me_you_p(Y, X).
 swap_word_p(W,W).
@@ -114,31 +90,20 @@ swap_word_s(X, Y) :- me_you_s(Y, X).
 swap_word_s(W,W).
 
 % *Forming the Response*
-% for now, simply add question mark to end
 % remember input list has swapped pronouns!!!
-% form_response(In, Out) :-
-%   response(InputPattern, ResponsePatterns),
-%   match(InputPattern, In)
-%   -> flatten(ResponsePatterns, Out)
-%   ;  (special_response(In, ResponsePatterns)
-%       -> flatten(ResponsePatterns, Out)
-%       ;  (default_response(InputPattern, ResponsePatterns),
-%            flatten(ResponsePatterns, Out))).
-  %random_elem(ResponsePatterns, ResponsePattern),
-%["(def1)", "(def2)", "(def3)", ...]
 form_response(In, Out) :-
-  special_response(In, ResponsePatterns)
+  special_response(In, ResponsePatterns) %for definition queries
   -> (
-     add_nums(ResponsePatterns, 1, NumPatterns),
+     add_nums(ResponsePatterns, 1, NumPatterns), %adds numbers to each response
      flatten(NumPatterns, Out)
      )
   ;  (
-     response(InputPattern, ResponsePatterns),
+     response(InputPattern, ResponsePatterns), %for all other response patterns
      match(InputPattern, In),
-     flatten(ResponsePatterns, Out)
+     random_elem(ResponsePatterns, ResponsePattern),
+     flatten(ResponsePattern, Out)
      ).
 
-    %random_elem(ResponsePatterns, ResponsePattern),
 add_nums([], _, []).
 add_nums([S|Ss], N, [Numbered|UnNumbered]) :-
   atom_number(AN, N),
@@ -151,18 +116,18 @@ add_nums([S|Ss], N, [Numbered|UnNumbered]) :-
   N1 is N+1,
   add_nums(Ss, N1, UnNumbered).
 
-% %returns random answer from list of possible answers
-% random_elem(List, Elem) :-
-%   count(List, N),
-%   !,
-%   random(1, N, I),
-%   nth1(I, List, Elem).
-%
-% %counts number of elements in a list
-% %count([], 0).
-% count([_|Tail], N) :-
-%   count(Tail, N1),
-%   N is N1 + 1.
+%returns random answer from list of possible answers
+random_elem(List, Elem) :-
+  count(List, N),
+  N>1 -> random(1, N, I),nth1(I, List, Elem) ; head(List, Elem).
+
+head([H|_], H).
+
+%counts number of elements in a list
+count([], 0).
+count([_|Tail], N) :-
+  count(Tail, N1),
+  N is N1 + 1.
 
 % *Matching Input with Response Rules*
 % boundary condtions:
