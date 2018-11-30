@@ -67,3 +67,9 @@ response( [X], [ [X,?] ]).
 
 special_response( ["what","does",X,"mean"],
                   Definitions ) :-  alldefs(X, Definitions).
+
+special_response( ["what","am","hyponyms","of",X],
+                  Hyponyms ) :-  allhyps(X, Hyponyms).
+
+special_response( ["what","am","antonyms","of",X],
+                  Antonyms ) :-  allants(X, Antonyms).

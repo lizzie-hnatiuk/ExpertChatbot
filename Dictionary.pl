@@ -1,5 +1,8 @@
 :- consult('wn_g.pl'). % Glossary from WordNet RDF/OWL Files: https://www.w3.org/2006/03/wn/wn20/
 :- consult('wn_s.pl'). % Dictionary from WordNet RDF/OWL Files: https://www.w3.org/2006/03/wn/wn20/
+:- consult('wn_hyp.pl'). % Hyponyms from WordNet RDF/OWL Files: https://www.w3.org/2006/03/wn/wn20/
+:- consult('wn_ant.pl'). % Antonyms from WordNet RDF/OWL Files: https://www.w3.org/2006/03/wn/wn20/
+
 
 
 % s(ID, X, word, type, Y, Z)
@@ -29,4 +32,22 @@ define(String, Definition) :-
 alldefs(String, DefList) :-
   findall(Def, define(String, Def), DefList).
 
-  %DefList = ["(def1)", "(def2)", "(def3)", ...]
+hyponym(String, Hyponym) :-
+  atom_string(Word, String),
+  s(ID, _, Word,_,_,_),
+  hyp(ID, HypID),
+  s(HypID, _, Hyp,_,_,_),
+  atom_string(Hyp, Hyponym).
+
+allhyps(String, HypList) :-
+  findall(Hyp, hyponym(String, Hyp), HypList).
+
+antonym(String, Antonym) :-
+  atom_string(Word, String),
+  s(ID, _, Word,_,_,_),
+  ant(ID, _, AntID, _),
+  s(AntID, _, Ant,_,_,_),
+  atom_string(Ant, Antonym).
+
+allants(String, AntList) :-
+    findall(Ant, antonym(String, Ant), AntList).
