@@ -1,17 +1,19 @@
 % ***** GeneralResponsePatterns.pl contains the Knowledge Base for the ChatBot *****
 % **********************  pertaining to natural language flow **********************
 
+:- consult('Dictionary.pl').
+
 % ********************************Pronoun Reversal ********************************
 % changes grammatical person of sentance (for response creation)
 
 % Object Pronouns
 % object: the NP sister to V, daughter of VP
-me_you_vp("me", "you").
+me_you_p("me", "you").
 
 % Subject Pronouns
 % subject: the NP sister to VP, daughter of S
-me_you_np("I", "you").
-me_you_np("i", "you").
+me_you_s("I", "you").
+me_you_s("i", "you").
 
 % Possessive Pronouns
 % refer to  N or NP, can replace N or NP, shows possession
@@ -45,13 +47,20 @@ response( [_,"you","like",X],
 
 response( ["how","am","me",_],
     [ ["good,","thank","you","for","asking",":)"] ]).
-    
+
 response( [_,"how","am","me",_],
     [ ["good,","thank","you","for","asking",":)"] ]).
 
-response( [_,"want","to",X],
+response( [_,"you","want","to",X],
           [ ["why","would","you","want","to",X,?],
             ["you","can","not",X,'.'],
             ["is","it","dangerous","to",X,?] ]).
 
+response( [_,"do","me","want","to",X],
+          [ ["I", "would", "love","to",X,'!'],
+            ["No,","thank","you",'.'] ]).
+
 response( [X], [ [X,?] ]).
+
+special_response( ["what","does",X,"mean"],
+          [ [Definition] ]) :-  define(X, Definition).

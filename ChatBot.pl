@@ -2,7 +2,8 @@
 % ************  pertaining to input deconstruction & output formation ************
 
 :- consult('GeneralResponsePatterns.pl').
-:- consult('Grammar.pl').
+%:- consult('Grammar.pl').
+:- consult('Dictionary.pl'). % Dictionary from WordNet RDF/OWL Files: https://www.w3.org/2006/03/wn/wn20/
 
 % *Input/Output*
 % takes an input string of user text
@@ -21,15 +22,40 @@ main :-
   InputString == "quit".
 
 
-% *Core Pattern Matcher - Respond function*
+% % *Core Pattern Matcher - Respond function*
+% respond(InputString, ResponseString) :-
+%   string_to_list(InputString, InputWordList),
+%   analyze_syntax(InputWordList, Subject, Predicate),
+%   swap_subject(Subject, SwappedSubject),
+%   swap_predicate(Predicate, SwappedPredicate),
+%   append(SwappedSubject, SwappedPredicate, SwappedWordList),
+%   form_response(SwappedWordList, ResponseWordList),
+%   list_to_string(ResponseWordList, ResponseString),
+%     % ! turns off auto backtracking
+%     %- so we have one response per user input
+%   !.
+
 respond(InputString, ResponseString) :-
   string_to_list(InputString, InputWordList),
-  swap_person(InputWordList, SwappedWordList),
-  form_response(SwappedWordList, ResponseWordList),
-  list_to_string(ResponseWordList, ResponseString),
-  % ! turns off auto backtracking
-  %- so we have one response per user input
-  !.
+  analyze_syntax(InputWordList, Subject, Predicate)
+  ->(
+    swap_subject(Subject, SwappedSubject),
+    swap_predicate(Predicate, SwappedPredicate),
+    append(SwappedSubject, SwappedPredicate, SwappedWordList),
+    form_response(SwappedWordList, ResponseWordList),
+    list_to_string(ResponseWordList, ResponseString),
+    !
+    )
+  ; (
+    string_to_list(InputString, InputWordList),
+    form_response(InputWordList, ResponseWordList),
+    list_to_string(ResponseWordList, ResponseString),
+    !
+    ).
+    % ! turns off auto backtracking
+    %- so we have one response per user input
+
+
 
 % *String/List conversion*
 %Split string into list of words sepearated by " "
@@ -46,31 +72,29 @@ list_to_string([Word|T], String) :-
 
 % *Using Pronoun Reversal to Create Response*
 %boundary condition: if list is empty, were done.
-swap_person([], []).
+swap_subject([], []).
 %recursive condition:
 %    - take first word in list and call swap_word/2
 %    - put replacement word in output list
 %    - recursively call rest of input list
-swap_person([X|Xs], [Y|Ys]) :-
-  tail(Xs, Xts)
-  -> (
-      verb(Xs, Xts)              %then:     % if head of Xs is verb
-      -> sw_np([X|Xs], [Y|Ys])              % then try swap_np {"you" <-> "I"}
-      ;  sw_vp([X|Xs], [Y|Ys])              % else try swap_vp {"you" <-> "me"}
-      )
-  ;   sw_vp([X|Xs], [Y|Ys]).                % else try swap_vp {"you" <-> "me"}
 
-tail([_|X], X).
+swap_subject([S|Ss], [SS|SSs]) :-
+  swap_word(S, SS), not(S==SS),
+  !, swap_subject(Ss,SSs).
 
-sw_np([X|Xs], [Y|Ys]) :-
-  (swap_word_np(X, Y), not(X==Y))                 % if swap_np is successful {"you" <-> "I"}
-  -> (!, swap_person(Xs, Ys))                     % then cut and recurse over rest of input
-  ; (swap_word(X, Y), !, swap_person(Xs, Ys)).    % else regular pronoun swap, cut, recurse
+swap_subject([S|Ss], [SS|SSs]) :-
+  swap_word_s(S, SS),
+  !, swap_subject(Ss,SSs).
 
-sw_vp([X|Xs], [Y|Ys]) :-
-  (swap_word_vp(X, Y), not(X==Y))                 % if swap_vp is successful{"you" <-> "me"}
-  -> (!, swap_person(Xs, Ys))                     % then cut and recurse over rest of input
-  ; (swap_word(X, Y), !, swap_person(Xs, Ys)).     % else regular pronoun swap, cut, recurse
+swap_predicate([], []).
+
+swap_predicate([P|Ps], [SP|SPs]) :-
+  swap_word(P, SP), not(P==SP),
+  !, swap_predicate(Ps,SPs).
+
+swap_predicate([P|Ps], [SP|SPs]) :-
+  swap_word_p(P, SP),
+  !, swap_predicate(Ps,SPs).
 
 %looks at K.B. to see if word is mentioned in pronoun reversals
 swap_word(X, Y) :- me_you(X, Y).
@@ -79,22 +103,38 @@ swap_word(X, Y) :- me_you(Y, X).
 swap_word(W,W).
 % specialized pronoun swapping for object & subject pronouns
 %    - (when to use "me" vs "I")
-swap_word_vp(X, Y) :- me_you_vp(X, Y).
-swap_word_vp(X, Y) :- me_you_vp(Y, X).
-swap_word_vp(W,W).
-swap_word_np(X, Y) :- me_you_np(X, Y).
-swap_word_np(X, Y) :- me_you_np(Y, X).
-swap_word_np(W,W).
+swap_word_p(X, Y) :- me_you_p(X, Y).
+swap_word_p(X, Y) :- me_you_p(Y, X).
+swap_word_p(W,W).
+swap_word_s(X, Y) :- me_you_s(X, Y).
+swap_word_s(X, Y) :- me_you_s(Y, X).
+swap_word_s(W,W).
 
 % *Forming the Response*
 % for now, simply add question mark to end
 % remember input list has swapped pronouns!!!
-form_response(In, Out) :-
-  response(InputPattern, ResponsePatterns),
-  match(InputPattern, In),
-   %random_elem(ResponsePatterns, ResponsePattern),
-  flatten(ResponsePatterns, Out).
+% form_response(In, Out) :-
+%   response(InputPattern, ResponsePatterns),
+%   match(InputPattern, In)
+%   -> flatten(ResponsePatterns, Out)
+%   ;  (special_response(In, ResponsePatterns)
+%       -> flatten(ResponsePatterns, Out)
+%       ;  (default_response(InputPattern, ResponsePatterns),
+%            flatten(ResponsePatterns, Out))).
+  %random_elem(ResponsePatterns, ResponsePattern),
 
+form_response(In, Out) :-
+  special_response(In, ResponsePatterns)
+  -> (
+     flatten(ResponsePatterns, Out)
+     )
+  ;  (
+     response(InputPattern, ResponsePatterns),
+     match(InputPattern, In),
+     flatten(ResponsePatterns, Out)
+     ).
+
+    %random_elem(ResponsePatterns, ResponsePattern),
 
 % %returns random answer from list of possible answers
 % random_elem(List, Elem) :-
