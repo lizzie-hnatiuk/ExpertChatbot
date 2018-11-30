@@ -46,9 +46,6 @@ response( [_,"you","like",X],
       ["is","it","strange","to","like",X,?],
       ["XXXX"] ]).
 
-response( ["how","am","me",_],
-    [ ["good,","thank","you","for","asking",":)"] ]).
-
 response( [_,"how","am","me",_],
     [ ["good,","thank","you","for","asking",":)"] ]).
 
@@ -65,11 +62,11 @@ response( [_,"do","me","want","to",X],
 
 response( [X], [ [X,?] ]).
 
-special_response( ["what","does",X,"mean"],
+special_response( [_,"what","does",X,"mean"],
                   Definitions ) :-  alldefs(X, Definitions).
 
-special_response( ["what","am","hyponyms","of",X],
+special_response( [_,"what","am","hyponyms","of",X],
                   Hyponyms ) :-  allhyps(X, Hyponyms).
 
-special_response( ["what","am","antonyms","of",X],
+special_response( [_, "what","am","antonyms","of",X],
                   Antonyms ) :-  allants(X, Antonyms).
