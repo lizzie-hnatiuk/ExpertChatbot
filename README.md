@@ -6,6 +6,33 @@ The problem at hand is to examine the benefits and drawbacks of using logic prog
 ![](https://placehold.it/950x60/c7c9ff/393a66?text=What+is+the+Something+Extra?)
 The chatbot is ‘intelligent’ in the sense that it can recognize abstract patterns and respond appropriately within multiple different domains. The chatbot uses function symbols to abstract linguistic patterns and construct linguistic individuals, and will use separate databases for specific <i>ontologies</i><sup>[1](#Notes)</sup>. The ontologies are usable by the function symbols to support specific applications for the chatbot. For example, an ontology could be created to represent an expert system that warns people about what foods they can and cannot eat based on allergies<sup>[iii](#References)</sup>.  Without the ontology, the knowledge would all be stored in the linguistic rules specified by function symbols. With the ontology, the rules become simple general purpose rules and the knowledge is stored in the ontology. The current state of the chatbot makes use of some of the ontologies defined in <i>WordNet</i><sup>[ii](#References)</sup>, an electronic lexical database started at Princeton University. More ontologies may be easily added by following the example of the use of the WordNet components (wn_s.pl, wn_g.pl, wn_ant.pl, wn_hyp.pl) in Dictionary.pl (for searching the ontologies) and the special_response declarations in GeneralResponsePatterns.pl (for using the search functions to create chatbot responses).
 
+![](https://placehold.it/950x60/c7c9ff/393a66?text=Instructions+for+Use)
+1) Open Chatbot.pl with swipl in terminal
+   * `swipl -s Chatbot.pl`
+2) Run the main function
+   * `main.`
+3) Talk to the chatbot
+
+![](https://placehold.it/950x60/c7c9ff/393a66?text=Current+Response+Patterns)
+
+| User Asks | Chatbot Responds |
+| :---         |     :---      |         
+| yes   | why ?     | 
+| no     | why not ?       | 
+| my name is X   |   nice to meet you, X !                                                |
+| how are you   |   good, thank you for asking :)                                        |
+| i want to X   |   why would you want to X ? OR you cannot X . OR is it dangerous to X ?   |
+| do you want to X   |    I would love to X ! OR No, thank, you . |
+| what does X mean?  | *list of definitions for X*  |
+| what are hyponyms of X? | *list of hyponyms for X*  |
+| what are antonyms of X? | *list of antonyms for X*  |
+| _  | _ ? |
+
+
+
+
+
+
 ![](https://placehold.it/950x60/c7c9ff/393a66?text=Interesting+Functionality)
 * The chatbot is able to respond to any natural language query containing a specific word or sequence of words with a single specified response, or a random selection from a list of possible specified responses.
   * eg: The response to a query containing the phrase "how are you" is "good, thank you for asking :)"
@@ -44,9 +71,6 @@ The chatbot is ‘intelligent’ in the sense that it can recognize abstract pat
 #### General Problems Encountered
 * The way people can automatically deconstruct sentences and understand differences between subject and object pronouns is very complex.
 
-![](https://placehold.it/950x60/c7c9ff/393a66?text=Link+to+UBC+Wiki)
-https://wiki.ubc.ca/Generalized_'Expert'_Chatbot_CPSC312
-
 <a href='#Notes' id='Notes' class='anchor' aria-hidden='true'></a>
 ![](https://placehold.it/950x60/c7c9ff/393a66?text=Notes)
 1) Ontology:  a representation, formal naming, and definition of the categories, properties, and relations between the concepts, data, and entities that substantiate one, many, or all domains.
@@ -56,15 +80,6 @@ https://wiki.ubc.ca/Generalized_'Expert'_Chatbot_CPSC312
    * eg: <i>happy</i> is an antonym of <i>sad</i>.</li>
 5) Hyponym: a word of more specific meaning than a general term (i.e. a word whose meaning is included in the meaning of another word) .
    * eg: <i>spoon</i> is a hyponym of <i>cutlery</i>.</li>
-
-*Authors*
-* Elizabeth Hnatiuk 
-* Fengyi Bian 
-* Jia Bin Wang
-
-*Course Section*: CPSC 312 101
-
-*Date of Project Completion*: November 2018
 
 ![](https://placehold.it/950x60/c7c9ff/393a66?text=Suggested+Improvements)
 * Further implementation of syntax rules for sentace deconstruction and reconstruction.
@@ -78,3 +93,12 @@ i) Assem, M.V., Gangemi, A. & Schreiber, G. (Eds). (2006)  RDF/OWL Representatio
 ii) Fellbaum, C. (1998) WordNet: An Electronic Lexical Database. <i>Princeton University</i>. Retrieved from: http://wordnet.princeton.edu/.
 
 iii) Merritt, D. (2003) AI - The art and science of making computers do interesting things that are not in their nature. <i>Dr. Dobb's AI Expert Newsletter (11)</i>. Retrieved from: https://trilug.org/pipermail/dev/2003-September/000368.html.
+
+![](https://placehold.it/950x60/c7c9ff/393a66?text=UBC+Information)
+*Authors*: [Elizabeth Hnatiuk](https://github.com/lizzie-hnatiuk), [Fengyi Bian](https://github.com/fayebian), & [Jia Bin Wang](https://github.com/jw199802)
+
+*Course Section*: CPSC 312 101
+
+*Date of Project Completion*: November 2018
+
+*Link to UBC Wiki*: https://wiki.ubc.ca/Generalized_'Expert'_Chatbot_CPSC312
