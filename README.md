@@ -47,8 +47,8 @@ The chatbot is ‘intelligent’ in the sense that it can recognize abstract pat
 ![](https://placehold.it/950x60/c7c9ff/393a66?text=Link+to+UBC+Wiki)
 https://wiki.ubc.ca/Generalized_'Expert'_Chatbot_CPSC312
 
-![](https://placehold.it/950x60/c7c9ff/393a66?text=Notes)
 <a href='#Notes' id='Notes' class='anchor' aria-hidden='true'></a>
+![](https://placehold.it/950x60/c7c9ff/393a66?text=Notes)
 1) Ontology:  a representation, formal naming, and definition of the categories, properties, and relations between the concepts, data, and entities that substantiate one, many, or all domains.
 2) Natural language response pattern: use pattern matching to provide responses to common colloquial phrases (i.e. those often used in conversational speech).
 3) Special response pattern: use functions over ontologies to specialized obtain information.
@@ -67,8 +67,8 @@ CPSC 312 101
 #### Date of Project Completion
 November 2018
 
-![](https://placehold.it/950x60/c7c9ff/393a66?text=References)
 <a href='#References' id='References' class='anchor' aria-hidden='true'></a>
+![](https://placehold.it/950x60/c7c9ff/393a66?text=References)
 i) Assem, M.V., Gangemi, A. & Schreiber, G. (Eds). (2006)  RDF/OWL Representation of WordNet. <i>W3C Working Draft (19)</i>. Retrieved from: http://www.w3.org/TR/2006/WD-wordnet-rdf-20060619/.
 
 ii) Fellbaum, C. (1998) WordNet: An Electronic Lexical Database. <i>Princeton University</i>. Retrieved from: http://wordnet.princeton.edu/.
