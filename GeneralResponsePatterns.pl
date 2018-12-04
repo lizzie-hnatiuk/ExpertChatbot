@@ -41,6 +41,9 @@ response( ["no",_],
 response( [_, "your", "name", "is", X],
       [ ["nice","to", "meet", "you", X, "!"] ]).
 
+response( ["your", "name", "is", X],
+            [ ["nice","to", "meet", "you", X, "!"] ]).
+
 response( [_,"you","like",X],
     [ ["how","can","you","like",X,?],
       ["is","it","strange","to","like",X,?],
@@ -49,11 +52,20 @@ response( [_,"you","like",X],
 response( [_,"how","am","me",_],
     [ ["good,","thank","you","for","asking",":)"] ]).
 
+response( ["how","am","me",_],
+    [ ["good,","thank","you","for","asking",":)"] ]).
+
 response( [_,"you","want","to",X],
           [ ["why","would","you","want","to",X,?],
             ["you","can","not",X,'.'],
             ["is","it","dangerous","to",X,?],
             ["XXXX"]]).
+
+response( [_,"you","want","to",X],
+          [ ["why","would","you","want","to",X,?],
+          ["you","can","not",X,'.'],
+          ["is","it","dangerous","to",X,?],
+          ["XXXX"]]).
 
 response( [_,"do","me","want","to",X],
           [ ["I", "would", "love","to",X,'!'],
@@ -61,6 +73,15 @@ response( [_,"do","me","want","to",X],
             ["XXXX"] ]).
 
 response( [X], [ [X,?] ]).
+
+special_response( ["what","does",X,"mean"],
+                  Definitions ) :-  alldefs(X, Definitions).
+
+special_response( ["what","am","hyponyms","of",X],
+                  Hyponyms ) :-  allhyps(X, Hyponyms).
+
+special_response( ["what","am","antonyms","of",X],
+                  Antonyms ) :-  allants(X, Antonyms).
 
 special_response( [_,"what","does",X,"mean"],
                   Definitions ) :-  alldefs(X, Definitions).

@@ -2,7 +2,6 @@
 % ************  pertaining to input deconstruction & output formation ************
 
 :- consult('GeneralResponsePatterns.pl').
-%:- consult('Grammar.pl').
 :- consult('Dictionary.pl'). % Dictionary from WordNet RDF/OWL Files: https://www.w3.org/2006/03/wn/wn20/
 
 % *Input/Output*
