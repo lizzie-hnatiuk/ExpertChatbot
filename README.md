@@ -57,15 +57,19 @@ https://wiki.ubc.ca/Generalized_'Expert'_Chatbot_CPSC312
 5) Hyponym: a word of more specific meaning than a general term (i.e. a word whose meaning is included in the meaning of another word) .
    * eg: <i>spoon</i> is a hyponym of <i>cutlery</i>.</li>
 
+*Authors*
+* Elizabeth Hnatiuk 
+* Fengyi Bian 
+* Jia Bin Wang
 
-#### Authors
-Elizabeth Hnatiuk, Fengyi Bian & Jia Bin Wang
+*Course Section*: CPSC 312 101
 
-#### Course Section
-CPSC 312 101
+*Date of Project Completion*: November 2018
 
-#### Date of Project Completion
-November 2018
+![](https://placehold.it/950x60/c7c9ff/393a66?text=Suggested+Improvements)
+* Further implementation of syntax rules for sentace deconstruction and reconstruction.
+* Use of more ontologies through special response patterns to increase types knowledge the chatbot is able to impart.
+* Better search for response patterns - match and fill_var algorithms only work for one variable word before the key word, making these functions work for any amount of variable words would be ideal.
 
 <a href='#References' id='References' class='anchor' aria-hidden='true'></a>
 ![](https://placehold.it/950x60/c7c9ff/393a66?text=References)
